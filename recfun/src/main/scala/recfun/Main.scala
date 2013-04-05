@@ -47,6 +47,7 @@ object Main {
    * Exercise 3
    */
   def countChange(money: Int, coins: List[Int]): Int = {
+
     def count(sum: Int, coins: List[Int]): Int = {
       if (sum == money)
         1
