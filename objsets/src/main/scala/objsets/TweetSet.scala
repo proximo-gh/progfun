@@ -131,7 +131,10 @@ class Empty extends TweetSet {
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
-    val res = if (p(elem)) acc.incl(elem) else acc
+    val res =
+      if (p(elem)) acc.incl(elem)
+      else acc
+
     right.filterAcc(p, left.filterAcc(p, res))
   }
 
