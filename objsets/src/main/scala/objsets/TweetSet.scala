@@ -57,7 +57,7 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-   def union(that: TweetSet): TweetSet = ???
+   def union(that: TweetSet): TweetSet
 
   /**
    * Returns the tweet from this set which has the smallest retweet count.
@@ -68,7 +68,7 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def mostRetweeted: Tweet = ???
+  def mostRetweeted: Tweet
 
   /**
    * Returns a list containing all tweets of this set, sorted by retweet count
@@ -126,6 +126,25 @@ class Empty extends TweetSet {
   def remove(tweet: Tweet): TweetSet = this
 
   def foreach(f: Tweet => Unit): Unit = ()
+
+  /**
+   * Returns a new `TweetSet` that is the union of `TweetSet`s `this` and `that`.
+   *
+   * Question: Should we implment this method here, or should it remain abstract
+   * and be implemented in the subclasses?
+   */
+  def union(that: TweetSet): TweetSet = that
+
+  /**
+   * Returns the tweet from this set which has the smallest retweet count.
+   *
+   * Calling `mostRetweeted` on an empty set should throw an exception of
+   * type `java.util.NoSuchElementException`.
+   *
+   * Question: Should we implment this method here, or should it remain abstract
+   * and be implemented in the subclasses?
+   */
+  def mostRetweeted: Tweet = throw new NoSuchElementException
 }
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
@@ -164,6 +183,27 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     left.foreach(f)
     right.foreach(f)
   }
+
+  /**
+   * Returns a new `TweetSet` that is the union of `TweetSet`s `this` and `that`.
+   *
+   * Question: Should we implment this method here, or should it remain abstract
+   * and be implemented in the subclasses?
+   */
+  def union(that: TweetSet): TweetSet = {
+    ((left union right) union that) incl(elem)
+  }
+
+  /**
+   * Returns the tweet from this set which has the smallest retweet count.
+   *
+   * Calling `mostRetweeted` on an empty set should throw an exception of
+   * type `java.util.NoSuchElementException`.
+   *
+   * Question: Should we implment this method here, or should it remain abstract
+   * and be implemented in the subclasses?
+   */
+  def mostRetweeted: Tweet = ???
 }
 
 trait TweetList {
