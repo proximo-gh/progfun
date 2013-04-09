@@ -81,7 +81,7 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def descendingByRetweet: TweetList = ???
+  def descendingByRetweet: TweetList
 
 
   /**
@@ -149,6 +149,17 @@ class Empty extends TweetSet {
   def mostRetweeted: Tweet = throw new NoSuchElementException
 
   val isEmpty: Boolean = true
+
+  /**
+   * Returns a list containing all tweets of this set, sorted by retweet count
+   * in descending order. In other words, the head of the resulting list should
+   * have the highest retweet count.
+   *
+   * Hint: the method `remove` on TweetSet will be very useful.
+   * Question: Should we implment this method here, or should it remain abstract
+   * and be implemented in the subclasses?
+   */
+  def descendingByRetweet: TweetList = Nil
 }
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
@@ -219,6 +230,28 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
   }
 
   val isEmpty: Boolean = false
+
+  /**
+   * Returns a list containing all tweets of this set, sorted by retweet count
+   * in descending order. In other words, the head of the resulting list should
+   * have the highest retweet count.
+   *
+   * Hint: the method `remove` on TweetSet will be very useful.
+   * Question: Should we implment this method here, or should it remain abstract
+   * and be implemented in the subclasses?
+   */
+  def descendingByRetweet: TweetList = {
+    def find(set: TweetSet, acc: TweetList): TweetList = {
+      if (set.isEmpty) acc
+      else {
+        val most = set.mostRetweeted
+
+        find(set remove(most), new Cons(most, acc))
+      }
+    }
+
+    find(this, Nil)
+  }
 }
 
 trait TweetList {
