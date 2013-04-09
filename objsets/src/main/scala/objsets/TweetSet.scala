@@ -70,6 +70,8 @@ abstract class TweetSet {
    */
   def mostRetweeted: Tweet
 
+  def isEmpty: Boolean
+
   /**
    * Returns a list containing all tweets of this set, sorted by retweet count
    * in descending order. In other words, the head of the resulting list should
@@ -145,6 +147,8 @@ class Empty extends TweetSet {
    * and be implemented in the subclasses?
    */
   def mostRetweeted: Tweet = throw new NoSuchElementException
+
+  val isEmpty: Boolean = true
 }
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
@@ -203,7 +207,18 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def mostRetweeted: Tweet = ???
+  def mostRetweeted: Tweet = {
+    def most(x: Tweet, y: Tweet): Tweet = {
+      if (x.retweets < y.retweets) y else x
+    }
+
+    val leftMost = if (left.isEmpty) elem else left.mostRetweeted
+    val rightMost = if (right.isEmpty) elem else right.mostRetweeted
+
+    most(most(elem, leftMost), rightMost)
+  }
+
+  val isEmpty: Boolean = false
 }
 
 trait TweetList {
