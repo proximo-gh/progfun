@@ -220,7 +220,7 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
    */
   def mostRetweeted: Tweet = {
     def most(x: Tweet, y: Tweet): Tweet = {
-      if (x.retweets < y.retweets) y else x
+      if (x.retweets > y.retweets) y else x
     }
 
     val leftMost = if (left.isEmpty) elem else left.mostRetweeted
