@@ -169,7 +169,7 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
       if (p(elem)) acc.incl(elem)
       else acc
 
-    right.filterAcc(p, left.filterAcc(p, res))
+    left.filterAcc(p, right.filterAcc(p, res))
   }
 
 
