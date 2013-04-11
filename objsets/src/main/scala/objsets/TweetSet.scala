@@ -206,6 +206,9 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
    * and be implemented in the subclasses?
    */
   def union(that: TweetSet): TweetSet = {
+    if (that.isEmpty)
+      this
+
     ((left union right) union that) incl(elem)
   }
 
