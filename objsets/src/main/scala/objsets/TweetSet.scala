@@ -209,7 +209,7 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     if (that.isEmpty)
       this
 
-    ((left union right) union that) incl(elem)
+    (right union left) union (that incl elem)
   }
 
   /**
