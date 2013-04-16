@@ -1,6 +1,7 @@
 package patmat
 
 import common._
+import scala.annotation.tailrec
 
 /**
  * Assignment 4: Huffman coding
@@ -77,7 +78,30 @@ object Huffman {
    *       println("integer is  : "+ theInt)
    *   }
    */
-  def times(chars: List[Char]): List[(Char, Int)] = ???
+  def times(chars: List[Char]): List[(Char, Int)] = {
+    def count(c: Char, list: List[Char]): Int = {
+      if (list.isEmpty)
+        0
+      else
+        (if (list.head == c) 1 else 0) + count(c, list.tail)
+    }
+
+    def contatinsChar(c: Char, list: List[(Char, Int)]): Boolean = list.exists(_._1 == c)
+
+    def addItem(c: Char, list: List[(Char, Int)]): List[(Char, Int)] = {
+      if (contatinsChar(c, list)) list
+      else (c, count(c, chars)) :: list
+    }
+
+    def construct(chars: List[Char], result: List[(Char, Int)]): List[(Char, Int)] = {
+      if (chars.isEmpty)
+        result
+      else
+        construct(chars.tail, addItem(chars.head, result))
+    }
+
+    construct(chars, Nil)
+  }
 
   /**
    * Returns a list of `Leaf` nodes for a given frequency table `freqs`.
