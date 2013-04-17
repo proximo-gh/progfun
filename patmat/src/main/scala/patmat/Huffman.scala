@@ -79,18 +79,10 @@ object Huffman {
    *   }
    */
   def times(chars: List[Char]): List[(Char, Int)] = {
-    def count(c: Char, list: List[Char]): Int = {
-      if (list.isEmpty)
-        0
-      else
-        (if (list.head == c) 1 else 0) + count(c, list.tail)
-    }
-
-    def contatinsChar(c: Char, list: List[(Char, Int)]): Boolean = list.exists(_._1 == c)
 
     def addItem(c: Char, list: List[(Char, Int)]): List[(Char, Int)] = {
-      if (contatinsChar(c, list)) list
-      else (c, count(c, chars)) :: list
+      if (list.exists(_._1 == c)) list
+      else (c, chars.count(_ == c)) :: list
     }
 
     @tailrec
@@ -125,7 +117,7 @@ object Huffman {
   /**
    * Checks whether the list `trees` contains only one single code tree.
    */
-  def singleton(trees: List[CodeTree]): Boolean = ???
+  def singleton(trees: List[CodeTree]): Boolean = trees.size == 1
 
   /**
    * The parameter `trees` of this function is a list of code trees ordered
