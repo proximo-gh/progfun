@@ -138,7 +138,7 @@ object Huffman {
       val first = trees.head
       val second = trees.tail.head
 
-      val fork = makeCodeTree(first, second)//Fork(first, second, chars(first) union chars(second), weight(first) + weight(second))
+      val fork = makeCodeTree(first, second) //Fork(first, second, chars(first) union chars(second), weight(first) + weight(second))
 
       def place(list: List[CodeTree]): List[CodeTree] = {
         if (list.isEmpty)
@@ -194,7 +194,9 @@ object Huffman {
    * frequencies from that text and creates a code tree based on them.
    */
   def createCodeTree(chars: List[Char]): CodeTree = {
-     ???
+    until(singleton, combine) {
+      makeOrderedLeafList(times(chars))
+    }.head
   }
 
 
