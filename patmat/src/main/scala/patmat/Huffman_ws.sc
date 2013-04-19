@@ -9,3 +9,42 @@ import patmat.Huffman._
 
 times(List('a', 'b', 'a', 'c', 'c', 'c', 'd', 'd', 'c'))
 
+decodedSecret
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,5 @@
 package patmat
 
-import common._
 import scala.annotation.tailrec
 
 /**
@@ -209,6 +208,7 @@ object Huffman {
    * the resulting list of characters.
    */
   def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
+    @tailrec
     def decodeChar(node: CodeTree, bits: List[Bit]): (Char, List[Bit]) = {
       val bit = bits.head
 
@@ -218,10 +218,11 @@ object Huffman {
       }
     }
 
+    @tailrec
     def decodeRec(bits: List[Bit], chars: List[Char]): List[Char] = {
       if (bits.isEmpty) chars
       else decodeChar(tree, bits) match {
-        case (char, bs) => decodeRec(bits.tail, char :: chars)
+        case (char, bs) => decodeRec(bs.tail, char :: chars)
       }
     }
 
