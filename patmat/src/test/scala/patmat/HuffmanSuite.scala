@@ -65,4 +65,13 @@ class HuffmanSuite extends FunSuite {
       assert(decoded === text.toList)
     }
   }
+
+  test("convert to code table with larger tree") {
+    new TestTrees {
+      val converted = convert(t2)
+      println("converted = " + converted)
+
+      assert(converted === List(('a', List(0, 0)), ('b', List(0, 1)), ('d', List(1))))
+    }
+  }
 }
