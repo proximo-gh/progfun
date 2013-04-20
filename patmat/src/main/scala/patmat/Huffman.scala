@@ -269,8 +269,8 @@ object Huffman {
       node match {
         case Leaf(_, _) => bits
         case Fork(left, right, _, _) => {
-          if (containsChar(left)) encodeChar(left, char, 0 :: bits)
-          else if (containsChar(right)) encodeChar(right, char, 1 :: bits)
+          if (containsChar(left)) encodeChar(left, char, bits ::: List(0))
+          else if (containsChar(right)) encodeChar(right, char, bits ::: List(1))
           else throw new IllegalStateException("char " + char + " not found in node = " + node)
         }
       }
@@ -294,7 +294,7 @@ object Huffman {
    * This function returns the bit sequence that represents the character `char` in
    * the code table `table`.
    */
-  def codeBits(table: CodeTable)(char: Char): List[Bit] = ???
+  def codeBits(table: CodeTable)(char: Char): List[Bit] = table.find(_._1 == char).getOrElse((null, Nil))._2
 
   /**
    * Given a code tree, create a code table which contains, for every character in the
