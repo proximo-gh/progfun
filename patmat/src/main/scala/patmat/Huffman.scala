@@ -210,12 +210,10 @@ object Huffman {
   def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
     @tailrec
     def decodeChar(node: CodeTree, bits: List[Bit]): (Char, List[Bit]) = {
-      val bit = bits.head
-
       node match {
         case Leaf(char, _) => (char, bits)
         case Fork(left, right, _, _) => {
-          if (bit == 0) decodeChar(left, bits.tail)
+          if (bits.head == 0) decodeChar(left, bits.tail)
           else decodeChar(right, bits.tail)
         }
       }
