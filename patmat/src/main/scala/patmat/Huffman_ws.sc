@@ -6,10 +6,28 @@
  */
 
 import patmat.Huffman._
-
 times(List('a', 'b', 'a', 'c', 'c', 'c', 'd', 'd', 'c'))
+//decodedSecret
 
-decodedSecret
+val leaves = List(Leaf('a', 8), Leaf('b', 3), Leaf('c', 1), Leaf('d', 1),
+  Leaf('e', 1), Leaf('f', 1), Leaf('g', 1), Leaf('h', 1))
+
+val codeTree = until(singleton, combine) (leaves)
+
+
+
+decode(codeTree.head, List(1011))
+
+
+
+
+
+
+
+
+
+
+
 
 
 
