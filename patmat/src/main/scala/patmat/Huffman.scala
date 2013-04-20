@@ -329,10 +329,10 @@ object Huffman {
    * and then uses it to perform the actual encoding.
    */
   def quickEncode(tree: CodeTree)(text: List[Char]): List[Bit] = {
-    val codeTable = convert(tree)
+    val codeBits0 = codeBits(convert(tree)) _
 
     text.foldLeft(List[Bit]()) {
-      (bits: List[Huffman.Bit], char: Char) => bits ::: codeBits(codeTable)(char)
+      (bits, char) => bits ::: codeBits0(char)
     }
   }
 }
