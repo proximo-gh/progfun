@@ -214,7 +214,10 @@ object Huffman {
 
       node match {
         case Leaf(char, _) => (char, bits)
-        case Fork(left, right, _, _) => if(bit == 0) decodeChar(left, bits.tail) else decodeChar(right, bits.tail)
+        case Fork(left, right, _, _) => {
+          if (bit == 0) decodeChar(left, bits.tail)
+          else decodeChar(right, bits.tail)
+        }
       }
     }
 
@@ -222,7 +225,7 @@ object Huffman {
     def decodeRec(bits: List[Bit], chars: List[Char]): List[Char] = {
       if (bits.isEmpty) chars
       else decodeChar(tree, bits) match {
-        case (char, bs) => decodeRec(bs.tail, char :: chars)
+        case (char, bs) => decodeRec(bs, char :: chars)
       }
     }
 
