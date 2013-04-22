@@ -6,11 +6,11 @@ import scala.annotation.tailrec
  * Date: 4/16/13
  * Time: 11:35 PM
  */
-def uniqueNumbers(min: Int, max: Int): Seq[Int] = {
+def uniqueNumbers(min: Long, max: Long): Seq[Long] = {
   require(min <= max)
 
   @tailrec
-  def isUniqueRec(bits: Int)(number: Int): Boolean =
+  def isUniqueRec(bits: Int)(number: Long): Boolean =
     if (number == 0) true
     else {
       val newBits = bits | (1 << number % 10)
@@ -21,10 +21,22 @@ def uniqueNumbers(min: Int, max: Int): Seq[Int] = {
 
   def unique = isUniqueRec(0)_
 
-  (min to max).filter(unique(_))
+  def stream(i: Long, max: Long): Stream[Long] =
+    if (i < max) i #:: stream(i + 1, max)
+    else Stream[Long]()
+  stream(min, max).filter(unique(_))
+  //(min to max).filter(unique(_))
 }
+uniqueNumbers(0, 9876543210l).foreach((l: Long) => {})
 
-uniqueNumbers(50, 103)
+
+//uniqueNumbers(0, 1000).toList
+
+
+
+
+
+
 
 
 
