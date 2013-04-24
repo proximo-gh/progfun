@@ -24,10 +24,20 @@ def uniqueNumbers(min: Long, max: Long): Seq[Long] = {
   def stream(i: Long, max: Long): Stream[Long] =
     if (i < max) i #:: stream(i + 1, max)
     else Stream[Long]()
+
   stream(min, max).filter(unique(_))
   //(min to max).filter(unique(_))
 }
-uniqueNumbers(0, 9876543210l).foreach((l: Long) => {})
+
+val before = System.currentTimeMillis()
+
+uniqueNumbers(0, 987654321l).foreach((l: Long) => {})
+
+val after = System.currentTimeMillis()
+val delta = after - before
+val seconds = delta / 1000
+println("done")
+//uniqueNumbers(0, 9876543210l).foreach((l: Long) => {})
 
 
 //uniqueNumbers(0, 1000).toList
