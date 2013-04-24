@@ -16,6 +16,8 @@ object Empty extends BST {
   def contains(elem: Int): Boolean = false
 
   def add(elem: Int): BST = new Node(elem, Empty, Empty)
+
+  override def toString: String = "Empty"
 }
 
 case class Node(elem: Int, left: BST, right: BST) extends BST {
@@ -31,4 +33,6 @@ case class Node(elem: Int, left: BST, right: BST) extends BST {
     else if (elem < this.elem) new Node(this.elem, left.add(elem), right)
     else new Node(this.elem, left, right.add(elem))
   }
+
+  override def toString: String = "Node( " + elem + ", " + left + ", " + right + ")"
 }
