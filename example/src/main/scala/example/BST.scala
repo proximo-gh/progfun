@@ -9,6 +9,8 @@ trait BST {
   def contains(elem: Int): Boolean
 
   def add(elem: Int): BST
+
+  final def ++(elem: Int): BST = add(elem)
 }
 
 object Empty extends BST {
