@@ -1,9 +1,12 @@
 package example
 
+import scala.annotation.tailrec
+
 object BST {
   def apply(): BST = Empty
 
   def apply(ints : Int*): BST = ints.foldLeft(BST()) {_ ++ _}
+
 }
 
 trait BST {
@@ -13,6 +16,41 @@ trait BST {
   def add(elem: Int): BST
 
   def remove(elem: Int): BST
+
+  def traverse(f: Int => Unit) = traverseInfix(f)
+
+  def traversePrefix(implicit f: (Int => Unit)): Unit = {
+    this match {
+      case Leaf(e) => f(e)
+      case Node(e, l, r) =>
+        l.traversePrefix
+        f(e)
+        r.traversePrefix
+      case _ =>
+    }
+  }
+
+  def traverseInfix(implicit f: Int => Unit): Unit = {
+    this match {
+      case Leaf(e) => f(e)
+      case Node(e, l, r) =>
+        f(e)
+        l.traversePrefix
+        r.traversePrefix
+      case _ =>
+    }
+  }
+
+  def traversePostfix(implicit f: Int => Unit) = {
+    this match {
+      case Leaf(e) => f(e)
+      case Node(e, l, r) =>
+        l.traversePrefix
+        r.traversePrefix
+        f(e)
+      case _ =>
+    }
+  }
 
   final def ++(elem: Int): BST = add(elem)
 
