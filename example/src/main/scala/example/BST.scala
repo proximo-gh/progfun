@@ -1,6 +1,5 @@
 package example
 
-import scala.annotation.tailrec
 
 object BST {
   def apply(): BST = Empty
@@ -35,18 +34,18 @@ trait BST {
       case Leaf(e) => f(e)
       case Node(e, l, r) =>
         f(e)
-        l.traversePrefix
-        r.traversePrefix
+        l.traverseInfix
+        r.traverseInfix
       case _ =>
     }
   }
 
-  def traversePostfix(implicit f: Int => Unit) = {
+  def traversePostfix(implicit f: Int => Unit): Unit = {
     this match {
       case Leaf(e) => f(e)
       case Node(e, l, r) =>
-        l.traversePrefix
-        r.traversePrefix
+        l.traversePostfix
+        r.traversePostfix
         f(e)
       case _ =>
     }
