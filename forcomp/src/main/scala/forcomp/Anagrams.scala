@@ -89,7 +89,11 @@ object Anagrams {
    *  Note that the order of the occurrence list subsets does not matter -- the subsets
    *  in the example above could have been displayed in some other order.
    */
-  def combinations(occurrences: Occurrences): List[Occurrences] = ???
+  def combinations(occurrences: Occurrences): List[Occurrences] = {
+    val chars = occurrences map {_._1}
+
+    List(Nil) ::: dictionaryByOccurrences.keys.filter(_.forall({case (c, _) => chars.contains(c)})).toList
+  }
 
   /** Subtracts occurrence list `y` from occurrence list `x`.
    * 
