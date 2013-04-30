@@ -93,10 +93,17 @@ object Anagrams {
       List(Nil)
     else {
       val (char, count) = occurrences.head
-      (for {
+
+      val combined = (for {
         i <- 1 to count
-        comb <- (List(Nil) ::: combinations(occurrences.tail))
+        comb <- combinations(occurrences.tail)
       } yield ((char, i) :: comb)).toList
+
+      val simple = (for {
+        i <- 1 to count
+      } yield List((char, i))).toList
+
+      simple ::: combined
     }
   }
 
