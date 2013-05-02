@@ -89,15 +89,17 @@ object Anagrams {
     * in the example above could have been displayed in some other order.
     */
   def combinations(occurrences: Occurrences): List[Occurrences] = {
+    def one(occ: (Char, Int)) = (for (i <- 1 to occ._2) yield (occ._1, i))
+
     occurrences match {
-      case List() => List(List())
+      case List() => List(Nil)
       case head :: tail => {
         val tailCombinations = combinations(tail)
         tailCombinations ++
           (for {
-            o <- tailCombinations
-            i <- 1 to head._2
-          } yield (head._1, i) :: o)
+            c <- tailCombinations
+            o <- one(head)
+          } yield o :: c)
       }
     }
   }
