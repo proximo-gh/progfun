@@ -89,24 +89,18 @@ object Anagrams {
     * in the example above could have been displayed in some other order.
     */
   def combinations(occurrences: Occurrences): List[Occurrences] = {
-    def one(occ: (Char, Int)) = (for (i <- 1 to occ._2) yield List((occ._1, i))).toList
-
-    def comb(occurrences: Occurrences): List[Occurrences] = {
-      occurrences match {
-        case Nil => Nil
-        case head :: Nil => one(head)
-        case head :: tail =>
-          for {
-            o <- one(head)
-            c <- comb(tail)
-          } yield o ::: c
+    occurrences match {
+      case List() => List(List())
+      case head :: tail => {
+        val tailCombinations = combinations(tail)
+        tailCombinations ++
+          (for {
+            o <- tailCombinations
+            i <- 1 to head._2
+          } yield (head._1, i) :: o)
       }
     }
-
-    val ones = (occurrences map (one(_))).toList
-    List(Nil) ::: ones.flatMap(elem => elem) ::: comb(occurrences)
   }
-
   /** Subtracts occurrence list `y` from occurrence list `x`.
     *
     * The precondition is that the occurrence list `y` is a subset of
