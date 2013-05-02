@@ -89,22 +89,22 @@ object Anagrams {
     * in the example above could have been displayed in some other order.
     */
   def combinations(occurrences: Occurrences): List[Occurrences] = {
-    if (occurrences.isEmpty)
-      List(Nil)
-    else {
-      val (char, count) = occurrences.head
+    def one(occ: (Char, Int)) = (for (i <- 1 to occ._2) yield List((occ._1, i))).toList
 
-      val combined = (for {
-        i <- 1 to count
-        comb <- combinations(occurrences.tail)
-      } yield ((char, i) :: comb)).toList
-
-      val simple = (for {
-        i <- 1 to count
-      } yield List((char, i))).toList
-
-      simple ::: combined
+    def comb(occurrences: Occurrences): List[Occurrences] = {
+      occurrences match {
+        case Nil => List(Nil)
+        case head :: Nil => one(head)
+        case head :: tail =>
+          for {
+            o <- one(head)
+            c <- comb(tail)
+          } yield o ::: c
+      }
     }
+
+    val ones = (occurrences map (one(_))).toList
+    List(Nil) ::: ones.flatMap(elem => elem) ::: comb(occurrences)
   }
 
   /** Subtracts occurrence list `y` from occurrence list `x`.
