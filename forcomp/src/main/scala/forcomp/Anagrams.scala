@@ -93,7 +93,7 @@ object Anagrams {
 
     def comb(occurrences: Occurrences): List[Occurrences] = {
       occurrences match {
-        case Nil => List(Nil)
+        case Nil => Nil
         case head :: Nil => one(head)
         case head :: tail =>
           for {
