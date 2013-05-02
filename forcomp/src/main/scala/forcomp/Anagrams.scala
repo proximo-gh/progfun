@@ -173,16 +173,16 @@ object Anagrams {
     else {
       val occ = sentenceOccurrences(sentence)
 
-      def f(occ: Occurrences): List[Sentence] = {
+      def build(occ: Occurrences): List[Sentence] = {
         for (comb <- combinations(occ)) yield {
           val words = dictionaryByOccurrences.getOrElse(comb, Nil)
 
-          for (w <- words; rest <- f(subtract(occ, comb)))
+          for (w <- words; rest <- build(subtract(occ, comb)))
           yield w :: rest
         }.flatten
       }
 
-      f(occ)
+      build(occ)
     }
   }
 }
