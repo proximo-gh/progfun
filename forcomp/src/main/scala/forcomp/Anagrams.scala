@@ -165,14 +165,19 @@ object Anagrams {
     */
   def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
     def build(occ: Occurrences): List[Sentence] = {
-      if (sentence.isEmpty)
+      if (occ.isEmpty)
         List(Nil)
-      for {
-        comb <- combinations(occ)
-        w <- dictionaryByOccurrences.getOrElse(comb, Nil)
-        rest <- build(subtract(occ, comb))
+      else {
+        val combs = combinations(occ)
+
+        for {
+          comb <- combs
+          words = dictionaryByOccurrences.getOrElse(comb, Nil)
+          w <- words
+          rest <- build(subtract(occ, comb))
+        }
+        yield w :: rest
       }
-      yield w :: rest
     }
 
     build(sentenceOccurrences(sentence))
