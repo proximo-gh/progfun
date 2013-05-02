@@ -117,7 +117,15 @@ object Anagrams {
     * Note: the resulting value is an occurrence - meaning it is sorted
     * and has no zero-entries.
     */
-  def subtract(x: Occurrences, y: Occurrences): Occurrences = ???
+  def subtract(x: Occurrences, y: Occurrences): Occurrences = {
+    (x map {
+      case (char, fx) => {
+        val freq = fx - (y.find(_._1 == char).getOrElse((' ', 0))._2)
+        (char, freq)
+      }
+    }).filter(_._2 > 0)
+  }
+
 
   /** Returns a list of all anagram sentences of the given sentence.
     *
