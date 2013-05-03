@@ -33,10 +33,8 @@ object Anagrams {
     * same character, and are represented as a lowercase character in the occurrence list.
     */
   def wordOccurrences(w: Word): Occurrences = {
-    //TODO groupby
-
     val lowerCase = w.toLowerCase
-    lowerCase.distinct.sorted.map(c => (c, lowerCase.count(_ == c))).toList
+    lowerCase.groupBy(c => c).map({case (c, list) => (c, list.size)}).toList.sorted
   }
 
   /** Converts a sentence into its character occurrence list. */
