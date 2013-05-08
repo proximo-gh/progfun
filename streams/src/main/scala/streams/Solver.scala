@@ -10,7 +10,7 @@ trait Solver extends GameDef {
   /**
    * Returns `true` if the block `b` is at the final position
    */
-  def done(b: Block): Boolean = b.isStanding && b.b1 == goal
+  def done(b: Block): Boolean = b == Block(goal, goal)
 
   /**
    * This function takes two arguments: the current block `b` and
@@ -66,7 +66,11 @@ trait Solver extends GameDef {
    * construct the correctly sorted stream.
    */
   def from(initial: Stream[(Block, List[Move])],
-           explored: Set[Block]): Stream[(Block, List[Move])] = ???
+           explored: Set[Block]): Stream[(Block, List[Move])] = {
+    val more =
+      for (n <- newNeighborsOnly(initial, explored))
+      yield Stream.cons(n, initial)
+  }
 
   /**
    * The stream of all paths that begin at the starting block.
