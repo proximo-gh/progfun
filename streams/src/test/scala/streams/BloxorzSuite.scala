@@ -53,6 +53,12 @@ class BloxorzSuite extends FunSuite {
     }
   }
 
+  test("findChar(goal) level 1") {
+    new Level1 {
+      assert(goal == Pos(4,7))
+    }
+  }
+
   test("optimal solution for level 1") {
     new Level1 {
       assert(solve(solution) == Block(goal, goal))
