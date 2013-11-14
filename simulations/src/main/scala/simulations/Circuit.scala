@@ -27,6 +27,9 @@ abstract class CircuitSimulator extends Simulator {
   val AndGateDelay: Int
   val OrGateDelay: Int
 
+  val on = true
+  val off = false
+
   def probe(name: String, wire: Wire) {
     wire addAction {
       () => afterDelay(0) {
@@ -96,14 +99,14 @@ object Circuit extends CircuitSimulator {
     probe("in1", in1)
     probe("in2", in2)
     probe("out", out)
-    in1.setSignal(false)
-    in2.setSignal(false)
+    in1.setSignal(off)
+    in2.setSignal(off)
     run
 
-    in1.setSignal(true)
+    in1.setSignal(on)
     run
 
-    in2.setSignal(true)
+    in2.setSignal(on)
     run
   }
 
