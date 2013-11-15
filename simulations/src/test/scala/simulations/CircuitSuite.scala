@@ -71,4 +71,19 @@ class CircuitSuite extends CircuitSimulator with FunSuite {
     testOrGate(in1, in2, out)
   }
 
+  def generateLists(n: Int) = {
+
+    def wires(r: Range): List[Wire] = {
+      r.view.map(_ => new Wire).toList
+    }
+
+    val c: List[Wire] = wires (1 to n )
+    val o: List[Wire] = wires (1 to 1 << n)
+
+    (c, o)
+  }
+
+  test("demux1 0") {
+    val in = new Wire
+  }
 }
