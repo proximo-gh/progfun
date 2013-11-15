@@ -71,19 +71,36 @@ class CircuitSuite extends CircuitSimulator with FunSuite {
     testOrGate(in1, in2, out)
   }
 
-  def generateLists(n: Int) = {
-
-    def wires(r: Range): List[Wire] = {
-      r.view.map(_ => new Wire).toList
-    }
-
-    val c: List[Wire] = wires (1 to n )
-    val o: List[Wire] = wires (1 to 1 << n)
-
-    (c, o)
-  }
+  def generateLists(n: Int) = List.fill(n + (2 << n)) {Wire()} splitAt n
 
   test("demux1 0") {
+    val out = setupDemux(0, Nil)
+
+    checkDemux(out, 0)
+  }
+
+  test("demux1 1") {
+    val out = setupDemux(0, Seq(1))
+
+    checkDemux(out, 1)
+  }
+
+  def setupDemux(n: Int, cv: Seq[Int]): List[Wire] = {
     val in = new Wire
+    val (c, out) = generateLists(n)
+
+    demux(in, c, out)
+
+    in.setSignal(on)
+
+    cv foreach(c(_).setSignal(on))
+
+    run
+
+    out
+  }
+
+  def checkDemux(out: Seq[Wire], n: Int) {
+    println(out)
   }
 }

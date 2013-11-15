@@ -19,6 +19,14 @@ class Wire {
     actions = a :: actions
     a()
   }
+
+  override def toString: String = {
+    sigVal.toString
+  }
+}
+
+object Wire {
+  def apply(): Wire = new Wire
 }
 
 abstract class CircuitSimulator extends Simulator {
@@ -83,7 +91,18 @@ abstract class CircuitSimulator extends Simulator {
   }
 
   def demux(in: Wire, c: List[Wire], out: List[Wire]) {
-    ???
+
+    def dem(c: List[Wire], out: List[Wire], in: Wire) = {
+      c match {
+        case Nil =>
+        case x :: xs =>
+          andGate(in, x, out.head)
+      }
+    }
+
+    if (in.getSignal) {
+       dem(c, out, in)
+    }
   }
 
 }
