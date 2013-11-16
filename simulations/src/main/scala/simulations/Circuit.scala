@@ -100,9 +100,11 @@ abstract class CircuitSimulator extends Simulator {
       }
     }
 
-    if (in.getSignal) {
-       dem(c, out, in)
-    }
+    val notC = new Wire
+
+    inverter(c.head, notC)
+
+    andGate(in, notC, out.head)
   }
 
 }
