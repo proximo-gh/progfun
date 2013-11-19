@@ -7,7 +7,7 @@ class Wire {
   private var actions: List[Simulator#Action] = List()
 
   def getSignal: Boolean = sigVal
-  
+
   def setSignal(s: Boolean) {
     if (s != sigVal) {
       sigVal = s
@@ -19,14 +19,6 @@ class Wire {
     actions = a :: actions
     a()
   }
-
-  override def toString: String = {
-    sigVal.toString
-  }
-}
-
-object Wire {
-  def apply(): Wire = new Wire
 }
 
 abstract class CircuitSimulator extends Simulator {
@@ -34,9 +26,6 @@ abstract class CircuitSimulator extends Simulator {
   val InverterDelay: Int
   val AndGateDelay: Int
   val OrGateDelay: Int
-
-  val on = true
-  val off = false
 
   def probe(name: String, wire: Wire) {
     wire addAction {
@@ -65,10 +54,6 @@ abstract class CircuitSimulator extends Simulator {
     a2 addAction andAction
   }
 
-  //
-  // to complete with orGates and demux...
-  //
-
   def orGate(a1: Wire, a2: Wire, output: Wire) {
     def orAction() {
       val a1Sig = a1.getSignal
@@ -78,33 +63,28 @@ abstract class CircuitSimulator extends Simulator {
     a1 addAction orAction
     a2 addAction orAction
   }
-  
+
   def orGate2(a1: Wire, a2: Wire, output: Wire) {
-    val notIn1, notIn2, notOut = new Wire
-
-    inverter(a1, notIn1)
-    inverter(a2, notIn2)
-
-    andGate(notIn1, notIn2, notOut)
-
-    inverter(notOut, output)
+    val notA1, notA2, notOutput = new Wire
+    inverter(a1, notA1); inverter(a2, notA2)
+    andGate(notA1, notA2, notOutput)
+    inverter(notOutput, output)
   }
 
   def demux(in: Wire, c: List[Wire], out: List[Wire]) {
+    c match {
+      case Nil => andGate(in, in, out(0))
+      case x::xs => {
+        // Refer to the diagram
+        val inL, inR, notX = new Wire
+        andGate(in, x, inL)
+        inverter(x, notX); andGate(in, notX, inR)
 
-    def dem(c: List[Wire], out: List[Wire], in: Wire) = {
-      c match {
-        case Nil =>
-        case x :: xs =>
-          andGate(in, x, out.head)
+        val n = out.length / 2
+        demux(inL, xs, out take n)
+        demux(inR, xs, out drop n)
       }
     }
-
-    val notC = new Wire
-
-    inverter(c.head, notC)
-
-    andGate(in, notC, out.head)
   }
 
 }
@@ -120,14 +100,14 @@ object Circuit extends CircuitSimulator {
     probe("in1", in1)
     probe("in2", in2)
     probe("out", out)
-    in1.setSignal(off)
-    in2.setSignal(off)
+    in1.setSignal(false)
+    in2.setSignal(false)
     run
 
-    in1.setSignal(on)
+    in1.setSignal(true)
     run
 
-    in2.setSignal(on)
+    in2.setSignal(true)
     run
   }
 

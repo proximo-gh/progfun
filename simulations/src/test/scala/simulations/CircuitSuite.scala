@@ -14,18 +14,18 @@ class CircuitSuite extends CircuitSimulator with FunSuite {
   test("andGate example") {
     val in1, in2, out = new Wire
     andGate(in1, in2, out)
-    in1.setSignal(off)
-    in2.setSignal(off)
+    in1.setSignal(false)
+    in2.setSignal(false)
     run
 
     assert(out.getSignal === false, "and 1")
 
-    in1.setSignal(on)
+    in1.setSignal(true)
     run
 
     assert(out.getSignal === false, "and 2")
 
-    in2.setSignal(on)
+    in2.setSignal(true)
     run
 
     assert(out.getSignal === true, "and 3")
@@ -33,24 +33,24 @@ class CircuitSuite extends CircuitSimulator with FunSuite {
 
 
   def testOrGate(in1: Wire, in2: Wire, out: Wire) {
-    in1.setSignal(off)
-    in2.setSignal(off)
+    in1.setSignal(false)
+    in2.setSignal(false)
     run
 
     assert(out.getSignal === false, "and 1")
 
-    in1.setSignal(on)
+    in1.setSignal(true)
     run
 
     assert(out.getSignal === true, "and 2")
 
-    in1.setSignal(off)
-    in2.setSignal(on)
+    in1.setSignal(false)
+    in2.setSignal(true)
     run
 
     assert(out.getSignal === true, "and 3")
 
-    in1.setSignal(on)
+    in1.setSignal(true)
     run
 
     assert(out.getSignal === true, "and 4")
@@ -71,7 +71,7 @@ class CircuitSuite extends CircuitSimulator with FunSuite {
     testOrGate(in1, in2, out)
   }
 
-  def generateLists(n: Int) = List.fill(n + (2 << n)) {Wire()} splitAt n
+  def generateLists(n: Int) = List.fill(n + (2 << n)) {new Wire()} splitAt n
 
   test("demux1 0") {
     val out = setupDemux(0, Nil)
@@ -91,9 +91,9 @@ class CircuitSuite extends CircuitSimulator with FunSuite {
 
     demux(in, c, out)
 
-    in.setSignal(on)
+    in.setSignal(true)
 
-    cv foreach(c(_).setSignal(on))
+    cv foreach(c(_).setSignal(true))
 
     run
 
